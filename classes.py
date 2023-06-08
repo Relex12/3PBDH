@@ -26,11 +26,12 @@ class EllipticCurve(object):
     def __eq__(self, other):
         return (self.a, self.b) == (other.a, other.b)
 
-    def plot(self):
-        y, x = np.ogrid[-5:5:100j, -5:5:100j]
+    def plot(self, size):
+        y, x = np.ogrid[-size:size:100j, -size:size:100j]
         plt.contour(x.ravel(), y.ravel(), pow(y, 2) - pow(x, 3) - x * self.a - self.b, [0])
         plt.grid()
-
+        plt.xlim([-size, size])
+        plt.ylim([-size, size])
 
 class Point(object):
     def __init__(self, curve, x, y):
@@ -42,7 +43,12 @@ class Point(object):
             raise Exception("The point %s is not on the given curve %s" % (self, curve))
 
     def __str__(self):
-        return '{(%s,%s) %s}' % (self.x, self.y, self.curve)
+        x = self.x.denominator / self.x.numerator
+        y = self.y.denominator / self.y.numerator
+        return '(%s,%s)' % (x, y)
+
+    def __repr__(self):
+        return '(%s,%s)' % (self.x, self.y)
 
     def __neg__(self):
         return Point(self.curve, self.x, -self.y)
@@ -100,9 +106,14 @@ class Point(object):
     def __rmul__(self, n):
         return self * n
 
-    def plot(self):
-        plt.plot(self.x, self.y, marker=".")
-        plt.annotate(f"({self.x}, {self.y})", (self.x, self.y))
+    def __eq__(self, point):
+        return (self.curve, self.x, self.y) == (point.curve, point.x, point.y)
+
+    def plot(self, label = None):
+        if not isinstance(self, Ideal):
+            plt.plot(self.x, self.y, marker=".")
+            if label != None:
+                plt.annotate(label, (self.x, self.y))
 
 
 class Ideal(Point):
@@ -123,40 +134,28 @@ class Ideal(Point):
             raise Exception("Can't scale a point by something which isn't an int!")
         else:
             return self
-    
-    def plot(self):
-        pass
+
+
+def plot(point, label = None):
+    point.plot(label)
 
 
 if __name__ == "__main__":
 
     C = EllipticCurve(a=-2, b=4)
-    print (C)
-    C.plot()
+    C.plot(20)
 
     P = Point(C, frac(3), frac(5))
     Q = Point(C, frac(-2), frac(0))
-    print (P)
-    (P).plot()
-    print (Q)
-    (Q).plot()
-    print (P+Q)
-    (P+Q).plot()
-    print (Q+P)
-    (Q+P).plot()
-    print (Q+P)
-    (Q+P).plot()
-    print (Q+Q)
-    (Q+Q).plot()
-    print (P+P)
-    (P+P).plot()
-    print (P+P+P)
-    # (P+P+P).plot()
-    print (3*P)
-    # (3*P).plot()
-    print (Q-3*P)
-    # (Q-3*P).plot()
-    print (-20*P)
-    # (-20*P).plot()
+    R = Point(C, frac(240), frac(3718))
+    R = 36*R
+
+    # plot (P, 'P')
+    # plot (Q, 'Q')
+    # plot (R, 'R')
+    # plot (P+Q, 'P+Q')
+    # plot (P+R, 'P+R')
+    # plot (Q+R, 'Q+R')
+    # plot (P+Q+R, 'P+Q+R')
 
     plt.savefig("graph.png")
