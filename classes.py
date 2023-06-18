@@ -1,4 +1,5 @@
 # https://jeremykun.com/2014/02/24/elliptic-curves-as-python-objects/
+# https://volya.xyz/ecc/
 
 from math import sqrt
 import numpy as np
@@ -9,20 +10,23 @@ class EllipticCurve(object):
         # assume we're already in the Weierstrass form
         self.a = a
         self.b = b
- 
+
         self.discriminant = -16 * (4 * a*a*a + 27 * b * b)
         if not self.isSmooth():
             raise Exception("The curve %s is not smooth!" % self)
- 
+
+    def ecc(self, x):
+        return x**3 + self.a*x + self.b
+
     def isSmooth(self):
         return self.discriminant != 0
- 
+
     def testPoint(self, x, y):
         return y*y == x*x*x + self.a * x + self.b
- 
+
     def __str__(self):
         return 'y^2 = x^3 + %Gx + %G' % (self.a, self.b)
- 
+
     def __eq__(self, other):
         return (self.a, self.b) == (other.a, other.b)
 
@@ -36,12 +40,31 @@ class EllipticCurve(object):
         plt.ylim([-ysize, ysize])
 
 
+class FiniteEllipticCurve(EllipticCurve):
+    def __init__(self, a, b, p):
+        super().__init__(a, b)
+        self.p = p
+
+    def ecc(self, x):
+        # assert (4*self.a**3 + 27*self.b**2) % self.p!= 0   # not understood
+        return (x**3 + self.a*x + self.b) % self.p
+
+    def plot(self):
+        x = np.array(range(0, self.p))
+        x2 = x**2 % self.p
+        y2 = self.ecc(x)
+        y = [(i, *y_i) for i, y_i in enumerate([np.where(y2_i == x2)[0] for y2_i in y2]) if y_i.size > 0]   # not understood
+        plt.figure(dpi=100)
+        for y_p in y:
+            [plt.scatter(y_p[0], i, c='b') for i in y_p[1:]]
+
+
 class Point(object):
     def __init__(self, curve, x, y):
         self.curve = curve # the curve containing this point
         self.x = x
         self.y = y
- 
+
         if not curve.testPoint(x,y):
             raise Exception("The point %s is not on the given curve %s" % (self, curve))
 
@@ -59,13 +82,13 @@ class Point(object):
     def __add__(self, Q):
         if isinstance(Q, Ideal):
             return self
- 
+
         x1, y1, x2, y2 = self.x, self.y, Q.x, Q.y
- 
+
         if (x1, y1) == (x2, y2):
             if y1 == 0:
                 return Ideal(self.curve)
- 
+
             # slope of the tangent line
             m = (3 * x1 * x1 + self.curve.a) / (2 * y1)
 
@@ -78,7 +101,7 @@ class Point(object):
 
         x3 = m*m - x2 - x1
         y3 = m*(x3 - x1) + y1
- 
+
         return Point(self.curve, x3, -y3)
 
     def __sub__(self, Q):
@@ -122,7 +145,7 @@ class Point(object):
 class Ideal(Point):
     def __init__(self, curve):
         self.curve = curve
- 
+
     def __str__(self):
         return "Ideal"
 
