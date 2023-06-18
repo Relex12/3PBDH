@@ -1,6 +1,6 @@
 # https://jeremykun.com/2014/02/24/elliptic-curves-as-python-objects/
 
-from fractions import Fraction as frac
+from math import sqrt
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -26,12 +26,15 @@ class EllipticCurve(object):
     def __eq__(self, other):
         return (self.a, self.b) == (other.a, other.b)
 
-    def plot(self, size):
-        y, x = np.ogrid[-size:size:100j, -size:size:100j]
+    def plot(self, xsize):
+        margin = 5
+        ysize = sqrt(xsize**3 + self.a*xsize + self.b)
+        y, x = np.ogrid[-ysize:ysize:1000j, -xsize:xsize:1000j]
         plt.contour(x.ravel(), y.ravel(), pow(y, 2) - pow(x, 3) - x * self.a - self.b, [0])
         plt.grid()
-        plt.xlim([-size, size])
-        plt.ylim([-size, size])
+        plt.xlim([-margin, xsize + margin])
+        plt.ylim([-ysize, ysize])
+
 
 class Point(object):
     def __init__(self, curve, x, y):
@@ -138,24 +141,3 @@ class Ideal(Point):
 
 def plot(point, label = None):
     point.plot(label)
-
-
-if __name__ == "__main__":
-
-    C = EllipticCurve(a=-2, b=4)
-    C.plot(20)
-
-    P = Point(C, frac(3), frac(5))
-    Q = Point(C, frac(-2), frac(0))
-    R = Point(C, frac(240), frac(3718))
-    R = 36*R
-
-    # plot (P, 'P')
-    # plot (Q, 'Q')
-    # plot (R, 'R')
-    # plot (P+Q, 'P+Q')
-    # plot (P+R, 'P+R')
-    # plot (Q+R, 'Q+R')
-    # plot (P+Q+R, 'P+Q+R')
-
-    plt.savefig("graph.png")
