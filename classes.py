@@ -142,6 +142,15 @@ class Point(object):
                 plt.annotate(label, (self.x, self.y))
 
 
+class FinitePoint(Point):
+    def __init__(self, curve, x, y):
+        self.curve = curve
+        self.x = x
+        self.y = y
+        
+        print 
+        print ((x**3 + self.curve.a * x + self.curve.b) % self.curve.p)
+
 class Ideal(Point):
     def __init__(self, curve):
         self.curve = curve

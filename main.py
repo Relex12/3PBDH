@@ -37,4 +37,6 @@ from classes import *
 G = FiniteEllipticCurve(-5, 8, 37)
 G.plot()
 
+P = FinitePoint(G, 5, 16)
+
 plt.savefig("graph.png")
