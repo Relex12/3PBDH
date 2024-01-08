@@ -156,15 +156,6 @@ class Point(object):
 
 
 class FinitePoint(Point):
-    def __init__(self, curve, x, y, label=None):
-        self.curve = curve
-        self.x = x
-        self.y = y
-        self.label= label
-        
-        if not curve.testPoint(x,y):
-            raise Exception("The point %s is not on the given curve %s" % (self, curve))
-
     def __str__(self):
         return f'({self.x},{self.y})'
 
