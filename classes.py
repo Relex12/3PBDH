@@ -160,7 +160,7 @@ class FinitePoint(Point):
         return f'({self.x},{self.y})'
 
     def __neg__(self):
-        return Point(self.curve, self.x, self.x + self.y)
+        return FinitePoint(self.curve, self.x, self.curve.p - self.y)
 
     def double(self):
         lambd = (((3 * self.x**2 + self.curve.a) % self.curve.p ) * pow(2 * self.y, -1, self.curve.p)) % self.curve.p
