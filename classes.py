@@ -1,5 +1,6 @@
 # https://jeremykun.com/2014/02/24/elliptic-curves-as-python-objects/
 # https://volya.xyz/ecc/
+# https://www.rareskills.io/post/elliptic-curves-finite-fields
 
 from math import sqrt
 import numpy as np
@@ -25,7 +26,7 @@ class EllipticCurve(object):
         return y*y == x*x*x + self.a * x + self.b
 
     def __str__(self):
-        return 'y^2 = x^3 + %Gx + %G' % (self.a, self.b)
+        return f'y^2 = x^3 + {self.a}x + {self.b}'
 
     def __eq__(self, other):
         return (self.a, self.b) == (other.a, other.b)
@@ -48,6 +49,15 @@ class FiniteEllipticCurve(EllipticCurve):
     def ecc(self, x):
         # assert (4*self.a**3 + 27*self.b**2) % self.p!= 0   # not understood
         return (x**3 + self.a*x + self.b) % self.p
+
+    def testPoint(self, x, y):
+        return (y*y) % self.p == (x*x*x + self.a * x + self.b) % self.p
+
+    def __str__(self):
+        return f'y^2 = x^3 + {self.a}x + {self.b} mod {self.p}'
+
+    def __eq__(self, other):
+        return (self.a, self.b, self.p) == (other.a, other.b, other.p)
 
     def plot(self):
         x = np.array(range(0, self.p))
@@ -152,8 +162,40 @@ class FinitePoint(Point):
         self.y = y
         self.label= label
         
-        print 
-        print ((x**3 + self.curve.a * x + self.curve.b) % self.curve.p)
+        if not curve.testPoint(x,y):
+            raise Exception("The point %s is not on the given curve %s" % (self, curve))
+
+    def __str__(self):
+        return f'({self.x},{self.y})'
+
+    def __neg__(self):
+        return Point(self.curve, self.x, self.x + self.y)
+
+    def double(self):
+        lambd = (((3 * self.x**2 + self.curve.a) % self.curve.p ) * pow(2 * self.y, -1, self.curve.p)) % self.curve.p
+        xr = (lambd**2 - 2 * self.x) % self.curve.p
+        yr = (-lambd * xr + lambd * self.x - self.y) % self.curve.p
+        return FinitePoint(self.curve, xr, yr)
+
+    def __add__(self, Q):
+        if isinstance(Q, Ideal):
+            return self
+        if self == Q:
+            return self.double()
+        if self.x == Q.x:
+            return Ideal(self.curve)
+
+        x1,y1,x2,y2,p = self.x, self.y, Q.x, Q.y, self.curve.p
+
+        lambd = ((y2 - y1) * pow((x2 - x1), -1, p) ) % p
+        xr = (lambd**2 - x1 - x2) % p
+        yr = (lambd*(x1 - xr) - y1) % p
+
+        return FinitePoint(self.curve, xr, yr)
+
+    def __sub__(self, Q):
+        return self + -Q
+
 
 class Ideal(Point):
     def __init__(self, curve):
