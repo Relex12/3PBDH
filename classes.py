@@ -60,10 +60,11 @@ class FiniteEllipticCurve(EllipticCurve):
 
 
 class Point(object):
-    def __init__(self, curve, x, y):
+    def __init__(self, curve, x, y, label=None):
         self.curve = curve # the curve containing this point
         self.x = x
         self.y = y
+        self.label= label
 
         if not curve.testPoint(x,y):
             raise Exception("The point %s is not on the given curve %s" % (self, curve))
@@ -140,13 +141,16 @@ class Point(object):
             plt.plot(self.x, self.y, marker=".")
             if label != None:
                 plt.annotate(label, (self.x, self.y))
+            elif self.label != None:
+                plt.annotate(self.label, (self.x, self.y))
 
 
 class FinitePoint(Point):
-    def __init__(self, curve, x, y):
+    def __init__(self, curve, x, y, label=None):
         self.curve = curve
         self.x = x
         self.y = y
+        self.label= label
         
         print 
         print ((x**3 + self.curve.a * x + self.curve.b) % self.curve.p)
@@ -169,7 +173,3 @@ class Ideal(Point):
             raise Exception("Can't scale a point by something which isn't an int!")
         else:
             return self
-
-
-def plot(point, label = None):
-    point.plot(label)

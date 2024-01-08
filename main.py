@@ -8,16 +8,16 @@ finite=True
 
 if not finite:
     C = EllipticCurve(a=-2, b=4)
-    C.plot(50)
+    C.plot(20)
 
-    P = Point(C, frac(3), frac(5))
-    Q = Point(C, frac(-2), frac(0))
+    P = Point(C, frac(3), frac(5), 'P')
+    Q = Point(C, frac(-2), frac(0), 'Q')
     R = Point(C, frac(240), frac(3718))
     R = 36*R
 
-    plot (P)
-    plot (Q)
-    plot (R)
+    P.plot()
+    Q.plot()
+    R.plot('R')
 
     G = P
 
@@ -33,17 +33,17 @@ if not finite:
     print (A)
     print (B)
     print (C)
-    plot (A, 'A')
-    plot (B, 'B')
-    plot (C, 'C')
+    A.plot('A')
+    B.plot('B')
+    C.plot('C')
 
 else:
     C = FiniteEllipticCurve(-5, 8, 37)
     C.plot()
 
-    P = FinitePoint(C, 5, 16)
-    Q = FinitePoint(C, 10, 25)
-    P.plot('P')
-    Q.plot('Q')
+    P = FinitePoint(C, 5, 16, 'P')
+    Q = FinitePoint(C, 10, 25, 'Q')
+    P.plot()
+    Q.plot()
 
 plt.savefig("graph.png")
