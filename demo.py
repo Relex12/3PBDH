@@ -40,43 +40,43 @@ print(f'kca = {kca}')
 print(f'kbc = {kbc}')
 print(f'kcb = {kcb}')
 
-# kabc, kbac and kcab computed by Alice, Bob and Charles are multipartite secret keys
+# kabc, kbca and kcab computed by Alice, Bob and Charles are multipartite secret keys
 kabc1 = (B**a * C**a) % p
-kbac1 = (A**b * C**b) % p
-kcac1 = (A**c * B**c) % p
+kbca1 = (A**b * C**b) % p
+kcab1 = (A**c * B**c) % p
 
 print ('Three partite session keys, first attempt')
 print(f'kabc1 = {kabc1}')
-print(f'kbac1 = {kbac1}')
-print(f'kcac1 = {kcac1}')
+print(f'kbca1 = {kbca1}')
+print(f'kcab1 = {kcab1}')
 
 
 kabc2 = ((B+C)**a) % p
-kbac2 = ((A+C)**b) % p
-kcac2 = ((A+B)**c) % p
+kbca2 = ((A+C)**b) % p
+kcab2 = ((A+B)**c) % p
 
 print ('Three partite session keys, second attempt')
 print(f'kabc2 = {kabc2}')
-print(f'kbac2 = {kbac2}')
-print(f'kcac2 = {kcac2}')
+print(f'kbca2 = {kbca2}')
+print(f'kcab2 = {kcab2}')
 
 
 kabc3 = ((B*C)**a) % p
-kbac3 = ((A*C)**b) % p
-kcac3 = ((A*B)**c) % p
+kbca3 = ((A*C)**b) % p
+kcab3 = ((A*B)**c) % p
 
 print ('Three partite session keys, third attempt')
 print(f'kabc3 = {kabc3}')
-print(f'kbac3 = {kbac3}')
-print(f'kcac3 = {kcac3}')
+print(f'kbca3 = {kbca3}')
+print(f'kcab3 = {kcab3}')
 
 
 kabc4 = (B**a + C**a) % p
-kbac4 = (A**b + C**b) % p
-kcac4 = (A**c + B**c) % p
+kbca4 = (A**b + C**b) % p
+kcab4 = (A**c + B**c) % p
 
 print ('Three partite session keys, fourth attempt')
 print(f'kabc4 = {kabc4}')
-print(f'kbac4 = {kbac4}')
-print(f'kcac4 = {kcac4}')
+print(f'kbca4 = {kbca4}')
+print(f'kcab4 = {kcab4}')
 
