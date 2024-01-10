@@ -5,6 +5,7 @@
 from math import sqrt
 import numpy as np
 import matplotlib.pyplot as plt
+from fractions import Fraction as frac
 
 class EllipticCurve(object):
     def __init__(self, a, b):
@@ -206,3 +207,31 @@ class Ideal(Point):
             raise Exception("Can't scale a point by something which isn't an int!")
         else:
             return self
+
+
+if __name__ == "__main__":
+    C = EllipticCurve(a=-2, b=4)
+    C.plot(5)
+    print (C)
+    P = Point(C, frac(3), frac(5), 'P')
+    Q = Point(C, frac(-2), frac(0), 'Q')
+    R = 5*P
+    S = P-Q
+    P.plot()
+    Q.plot()
+    R.plot('5P')
+    S.plot('P-Q')
+    plt.savefig("graph_continuous.png")
+
+    C = FiniteEllipticCurve(-5, 8, 37)
+    C.plot()
+    print (C)
+    P = FinitePoint(C, 5, 16, 'P')
+    Q = FinitePoint(C, 10, 25, 'Q')
+    R = 5*P
+    S = P-Q
+    P.plot()
+    Q.plot()
+    R.plot('5P')
+    S.plot('P-Q')
+    plt.savefig("graph_finite.png")
