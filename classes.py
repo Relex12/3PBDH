@@ -81,8 +81,8 @@ class Point(object):
             raise Exception("The point %s is not on the given curve %s" % (self, curve))
 
     def __str__(self):
-        x = self.x.denominator / self.x.numerator
-        y = self.y.denominator / self.y.numerator
+        x = self.x.numerator / self.x.denominator
+        y = self.y.numerator / self.y.denominator
         return '(%s,%s)' % (x, y)
 
     def __repr__(self):
@@ -234,4 +234,4 @@ if __name__ == "__main__":
     Q.plot()
     R.plot('5P')
     S.plot('P-Q')
-    plt.savefig("graph_finite.png")
+    plt.savefig("graph_discrete.png")
