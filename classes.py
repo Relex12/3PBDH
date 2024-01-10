@@ -215,12 +215,10 @@ if __name__ == "__main__":
     print (C)
     P = Point(C, frac(3), frac(5), 'P')
     Q = Point(C, frac(-2), frac(0), 'Q')
-    R = 5*P
-    S = P-Q
     P.plot()
     Q.plot()
-    R.plot('5P')
-    S.plot('P-Q')
+    (5*P).plot('5P')
+    (P-Q).plot('P-Q')
     plt.savefig("graph_continuous.png")
 
     C = FiniteEllipticCurve(-5, 8, 37)
@@ -228,10 +226,8 @@ if __name__ == "__main__":
     print (C)
     P = FinitePoint(C, 5, 16, 'P')
     Q = FinitePoint(C, 10, 25, 'Q')
-    R = 5*P
-    S = P-Q
     P.plot()
     Q.plot()
-    R.plot('5P')
-    S.plot('P-Q')
+    (5*P).plot('5P')
+    (P-Q).plot('P-Q')
     plt.savefig("graph_discrete.png")
