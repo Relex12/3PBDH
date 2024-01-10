@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # https://jeremykun.com/2014/02/24/elliptic-curves-as-python-objects/
 # https://volya.xyz/ecc/
 # https://www.rareskills.io/post/elliptic-curves-finite-fields
