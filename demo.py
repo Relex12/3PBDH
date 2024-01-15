@@ -140,15 +140,18 @@ if args.continuous:
         kac.plot('kac')
         kbc.plot('kbc')
 
-    print ('Three partite session keys, expected result')
-    kabc1 = ka*kb*kc*G
-    kbca1 = kb*kc*ka*G
-    kcab1 = kc*ka*kb*G
+    print ('Three partite session keys, first attempt')
+    print ('debug')
+    kabc1 = ka*(kB+kC)
+    kbca1 = kb*(kC+kA)
+    kcab1 = kc*(kA+kB)
     print(f'kabc1 = {kabc1}')
     print(f'kbca1 = {kbca1}')
     print(f'kcab1 = {kcab1}')
     if args.plot:
         kabc1.plot('kabc1')
+        kbca1.plot('kbca1')
+        kcab1.plot('kcab1')
 
     if args.plot:
         plt.savefig("graph_continuous.png")
@@ -204,15 +207,18 @@ if args.plot:
     kac.plot('kac')
     kbc.plot('kbc')
 
-print ('Three partite session keys, expected result')
-kabc1 = ka*kb*kc*G
-kbca1 = kb*kc*ka*G
-kcab1 = kc*ka*kb*G
+print ('Three partite session keys, first attempt')
+print ('debug')
+kabc1 = ka*(kB+kC)
+kbca1 = kb*(kC+kA)
+kcab1 = kc*(kA+kB)
 print(f'kabc1 = {kabc1}')
 print(f'kbca1 = {kbca1}')
 print(f'kcab1 = {kcab1}')
 if args.plot:
     kabc1.plot('kabc1')
+    kbca1.plot('kbca1')
+    kcab1.plot('kcab1')
 
 if args.plot:
     plt.savefig("graph_discrete.png")
