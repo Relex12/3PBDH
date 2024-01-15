@@ -85,11 +85,6 @@ print(f'kbca2 = {((kA+kC)**kb) % p}')
 print(f'kcab2 = {((kA+kB)**kc) % p}')
 
 print ('Three partite session keys, third attempt')
-print(f'kabc3 = {((kB*kC)**ka) % p}')
-print(f'kbca3 = {((kA*kC)**kb) % p}')
-print(f'kcab3 = {((kA*kB)**kc) % p}')
-
-print ('Three partite session keys, fourth attempt')
 print(f'kabc4 = {(kB**ka + kC**ka) % p}')
 print(f'kbca4 = {(kA**kb + kC**kb) % p}')
 print(f'kcab4 = {(kA**kc + kB**kc) % p}')
