@@ -117,7 +117,13 @@ $`e(P,Q)=f_P(A_Q)^{(q^k+1)/r}`$ où $`P\in E/\mathbb F`$ est d'ordre $`r`$ et $`
 
 ### Couplage optimal Ate
 
-## N partis : généralisation
+## $`N`$ partis : généralisation
+
+Pour généraliser le cas à trois partis avec $`N`$ utilisateurs, sans restriction sur $`N`$, avec la cryptographie à base de couplage il faudrait trouver un couplage avec pour ensemble de départ $`N`$ courbes elliptiques $`e:G_1\times ...\times G_N\to G_T,\;(P_1,...,P_N)\mapsto e(P_1,...,P_N)`$. Il faut toujours s'assurer de la biliniéarité de $`e`$. Si $`e`$ est symétrique, on pourra noter $`e:G^N\to G_T`$. Si de tels couplages sont possibles, il n'existe a priori pas de méthode permettant d'en trouver à partir seulement des courbes $`G_1`$ à $`G_N`$.
+
+Dans le cas d'usage d'une application de messagerie instantannée, cette méthode implique que le couplage nécessaire à l'échange de la clé partagée doit être recalculé à chaque fois qu'un utilisateur entre ou sort de la conversation. Alternativement, un ensemble de couplage peut être prédéfini pour $`N`$ allant de 3 à une valeur maximale, qui serait le nombre maximal d'utilisateurs dans un groupe.
+
+Que ce soit grâce à la cryptographie à base de couplage ou autrement, la méthode de calcul de clé partagée doit encore être trouvée, prouvée et implémentée pour la généralisation à $`N`$ partis.
 
 ## Liens utiles
 
