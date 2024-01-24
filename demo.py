@@ -27,13 +27,13 @@ def solve_ecc(a, b, p=None):
 
 parser = ArgumentParser()
 parser.add_argument("-v", "--version", action="version", version='1.0')
-parser.add_argument("-p", "--prime", metavar='PRIME', type=int, default=509, help="prime number use for modulo in RSA and Finite fieds ECC")
+parser.add_argument("-p", "--prime", metavar='PRIME', type=int, default=509, help="prime number used for modulo in RSA and Finite fields ECC")
 parser.add_argument("-g", "--generator", metavar='NUM', type=int, default=7, help="number used for Diffie-Hellman exchange")
 parser.add_argument("-a", metavar='NUM', type=int, default=-2, help="coefficient a of the Weierstrass form")
 parser.add_argument("-b", metavar='NUM', type=int, default=4, help="coefficient b of the Weierstrass form")
 parser.add_argument("-m", "--max-key", metavar='NUM', type=int, default=1000, help="maximum value for random private key generation")
 parser.add_argument("-c", "--continuous", action='store_true', help="run the regular Elliptic Curve take quite a long")
-parser.add_argument("-d", "--debug", action='store_true', help="print additionnal informations")
+parser.add_argument("-d", "--debug", action='store_true', help="print additionnal information")
 parser.add_argument("-P", "--plot", action='store_true', help="plot graph with curve and points")
 args = parser.parse_args()
 

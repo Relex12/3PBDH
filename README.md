@@ -1,16 +1,16 @@
-# 3ECDH
+# 3PBDH
 
-Étude sur les échanges de clés multipartites Diffie-Hellman basé sur les courbes elliptiques
+Étude sur les échanges de clés multipartites Diffie-Hellman
 
-![](https://img.shields.io/github/license/Relex12/3ECDH) ![](https://img.shields.io/github/repo-size/Relex12/3ECDH) ![](https://img.shields.io/github/languages/top/Relex12/3ECDH) ![](https://img.shields.io/github/last-commit/Relex12/3ECDH) ![](https://img.shields.io/github/stars/Relex12/3ECDH)
+![](https://img.shields.io/github/license/Relex12/3PBDH) ![](https://img.shields.io/github/repo-size/Relex12/3PBDH) ![](https://img.shields.io/github/languages/top/Relex12/3PBDH) ![](https://img.shields.io/github/last-commit/Relex12/3PBDH) ![](https://img.shields.io/github/stars/Relex12/3PBDH)
 
-[Regarder sur GitHub](https://github.com/Relex12/3ECDH)
+[Regarder sur GitHub](https://github.com/Relex12/3PBDH)
 
-[![3ECDH](https://github-readme-stats.vercel.app/api/pin/?username=Relex12&repo=3ECDH)](https://github.com/Relex12/https://github.com/Relex12/3ECDH)
+[![3PBDH](https://github-readme-stats.vercel.app/api/pin/?username=Relex12&repo=3PBDH)](https://github.com/Relex12/3PBDH)
 
 ## Sommaire
 
-* [3ECDH](#3ecdh)
+* [3PBDH](#3pbdh)
     * [Sommaire](#sommaire)
     * [Problématique](#problématique)
     * [Deux partis : RSA et courbes elliptiques](#deux-partis--rsa-et-courbes-elliptiques)
@@ -30,19 +30,19 @@
 
 ## Problématique
 
-La cryptographie asymétrique permet d'assurer la confidentialité et l'authenticité des échanges entre deux ou plusieurs partis. Pour cela, chaque utilisateur possède une clé publique qu'il peut divulguer publiquement et clé privée grâce à laquelle il assure être l'origine des messages qu'il envoie. Un message chiffré à l'aide d'une clé privée peut être déchiffré par tout le monde grâce à la clé publique correspondante prouvant l'authenticité du message, un message chiffré avec une clé publique ne peut être déchiffré qu'avec la clé privée assurant la confidentialité.
+La cryptographie asymétrique permet d'assurer la confidentialité et l'authenticité des échanges entre deux ou plusieurs partis. Pour cela, chaque utilisateur possède une clé publique qu'il peut divulguer publiquement et une clé privée grâce à laquelle il assure être l'origine des messages qu'il envoie. Un message chiffré à l'aide d'une clé privée peut être déchiffré par tout le monde grâce à la clé publique correspondante prouvant l'authenticité du message, un message chiffré avec une clé publique ne peut être déchiffré qu'avec la clé privée assurant la confidentialité.
 
 En pratique, le chiffrement asymétrique est assez couteux en énergie et en temps de calcul, on préfère donc la cryptographique symétrique, à l'aide d'une clé partagée entre les utilisateurs créée à partir de leurs clés privées et publiques. Le processus de création de cette clé partagée assure que la confidentialité et l'authenticité sont conservées.
 
-Cette création de clé partagée fonctionne très bien avec deux utilisateurs, c'est la méthode utilisée dans le monde entier pour sécuriser les échanges via Internet notamment. 
+Cette création de clé partagée fonctionne très bien avec deux utilisateurs, c'est la méthode utilisée dans le monde entier pour sécuriser les échanges notamment sur Internet via HTTPS.
 
-Mais dans le cas d'un échange chiffré de bout en bout sur une application de messagerie instantanée où trois utilisateurs ou plus souhaitent créer une telle clé, le processus fonctionne très mal. Il faut alors avoir recours à du chiffrement asymétrique coûteux, un chiffrement symétrique entre chaque paire d'utilisateurs qui multiplie les chiffrements ou la signature tour à tour de la clé par chaque utilisateur.
+Mais dans le cas d'un échange chiffré de bout en bout sur une application de messagerie instantanée où trois utilisateurs ou plus souhaitent créer une telle clé, le processus ne fonctionne pas. Il faut alors avoir recours soit à du chiffrement asymétrique coûteux, soit à du chiffrement symétrique entre chaque paire d'utilisateurs ce qui multiplie les chiffrements, soit à la signature tour à tour de la clé par chaque utilisateur.
 
 Il n'existe pas de protocole qui permette la création d'une clé partagée symétrique entre trois partis ou plus en un seul tour à partir de la clé privée d'un utilisateur et des clés publiques de tous les autres.
 
 ## Deux partis : RSA et courbes elliptiques
 
-L'échange de clés Diffie-Hellman permet de créer une clé partagée à partir d'une clé privée, de la clé publique de l'autre utilisateur et de paramètres définis au préalable. Cet échange repose sur la méthode de chiffrement RSA, qui repose sur la congruence des nombres entiers et sur la difficulté algorithmique de la décomposition en facteurs premiers.
+L'échange de clés Diffie-Hellman permet de créer une clé partagée à partir d'une clé privée, de la clé publique de l'autre utilisateur et de paramètres définis au préalable. Cet échange repose sur la méthode de chiffrement RSA, qui utilise la congruence des nombres entiers et la difficulté algorithmique de la décomposition en facteurs premiers.
 
 Le calcul de la clé partagée fonctionne de la manière suivante : soient $`k_a`$ la clé privée d'Alice et $`k_b`$ la clé privée de Bob deux entiers. En connaissant $`p`$ un nombre premier et $`g`$ un nombre entier définis à l'avance, Alice et Bob peuvent calculer leurs clés publiques, respectivement $`k_A = g^{k_a}(\bmod{p})`$ et $`k_B = g^{k_b}(\bmod{p})`$. Après s'être envoyé leurs clés publiques, Alice et Bob peuvent calculer leur clé partagée :
 
@@ -53,15 +53,15 @@ k_{ab} = {k_B}^{k_a}(\bmod{p}) = (g^{k_b})^{k_a}(\bmod{p}) = g^{{k_a}{k_b}}(\bmo
 k_{ba} = {k_A}^{k_b}(\bmod{p}) = (g^{k_a})^{k_b}(\bmod{p}) = g^{{k_a}{k_b}}(\bmod{p})
 ```
 
-Depuis plusieurs années, le chiffrement asymétrique est plutôt réalisé grâce à la cryptographie sur les courbes elliptiques (*Elliptic Curve Cryptography* ou *ECC*) qui a progressivement remplacé le chiffrement RSA grâce ses clés bien plus courtes. Une courbe elliptique est un ensemble de points qui font partie de la courbe d'équation $`y^2 = x^3+ax+b`$, où $`a`$ et $`b`$ sont les paramètres de la courbe elliptique. Ces courbes elliptiques possèdent une loi de composition interne semblable à une addition, ainsi qu'un produit scalaire comme une loi de composition externe. 
+Depuis plusieurs années, le chiffrement asymétrique est plutôt réalisé grâce à la cryptographie sur les courbes elliptiques (*Elliptic Curve Cryptography* ou *ECC*) qui a progressivement remplacé le chiffrement RSA grâce ses clés bien plus courtes. Une courbe elliptique est un ensemble de points qui font partie de la courbe d'équation $`y^2 = x^3+ax+b`$, où $`a`$ et $`b`$ sont les paramètres de la courbe elliptique. Ces courbes elliptiques possèdent une loi de composition interne semblable à une addition, ainsi qu'un produit scalaire comme loi de composition externe.
 
-Dans la cryptographie sur les courbes elliptiques, les clés publiques sont des points de la courbe tandis que les clés privées sont des scalaires. Le calcul de clé partagée fonctionne ainsi : soient $`k_a`$ la clé privée d'Alice et $`k_b`$ la clé privée de Bob deux entiers. En connaissant $`a`$ et $`b`$ les paramètres de la courbe et $`p`$ un nombre premier, ainsi que $`G`$ un point de cette courbe, Alice et Bob peuvent calculer leurs clés publiques, respectivement $`k_A = {k_a}*G`$ et $`k_B = {k_b}*G`$, où $`*`$ représente le produit scalaire entre un nombre entier un point de la courbe. Après s'être envoyé leurs clés publiques, Alice et Bob peuvent calculer leur clé partagée :
+Dans la cryptographie sur les courbes elliptiques, les clés publiques sont des points de la courbe tandis que les clés privées sont des scalaires, c'est-à-dire des nombres entiers. Le calcul de clé partagée fonctionne ainsi : soient $`k_a`$ la clé privée d'Alice et $`k_b`$ la clé privée de Bob deux entiers. En connaissant $`a`$ et $`b`$ les paramètres de la courbe, ainsi que $`G`$ un point de cette courbe, Alice et Bob peuvent calculer leurs clés publiques, respectivement $`k_A = {k_a}*G`$ et $`k_B = {k_b}*G`$, où $`*`$ représente le produit scalaire entre un nombre entier un point de la courbe. Après s'être envoyé leurs clés publiques, Alice et Bob peuvent calculer leur clé partagée :
 
 ```math
-k_{ab} = k_a*k_B = k_a*k_b*G
+k_{ab} = k_a*k_B = k_ak_b*G
 ```
 ```math
-k_{ba} = k_b*k_A = k_a*k_b*G
+k_{ba} = k_b*k_A = k_ak_b*G
 ```
 
 En pratique, les courbes utilisées sont des courbes elliptiques sur corps finis, car les calculs y sont réalisés modulo $`p`$ un nombre premier pour des raisons similaire au chiffrement RSA. Le nombre premier $`p`$ est un paramètre de la courbe sur corps finis comme $`a`$ et $`b`$.
@@ -79,7 +79,7 @@ options:
   -h, --help            show this help message and exit
   -v, --version         show program's version number and exit
   -p PRIME, --prime PRIME
-                        prime number use for modulo in RSA and Finite fieds ECC
+                        prime number used for modulo in RSA and Finite fields ECC
   -g NUM, --generator NUM
                         number used for Diffie-Hellman exchange
   -a NUM                coefficient a of the Weierstrass form
@@ -87,7 +87,7 @@ options:
   -m NUM, --max-key NUM
                         maximum value for random private key generation
   -c, --continuous      run the regular Elliptic Curve take quite a long
-  -d, --debug           print additionnal informations
+  -d, --debug           print additionnal information
   -P, --plot            plot graph with curve and points
 ```
 
@@ -99,16 +99,16 @@ Le but de cette implémentation est de montrer de manière non rigoureuse que RS
 
 La cryptographie à base de couplage (*Pairing Based Cryptography* ou *PBC*) utilise des courbes elliptiques ainsi qu'une fonction entre ces courbes appelée couplage $`e:G_1\times G_2\to G_T,\;(P,Q)\mapsto e(P,Q)`$. On souhaite que le couplage soit bilinéaire, c'est-à-dire $`e(P+R,Q)=e(P,Q)+e(R,Q)`$ et $`e(P,Q+S)=e(P,Q)+e(P,S)`$ et non dégénératif $`e\ne1`$. Un couplage est dit symétrique lorsque $`G_1=G_2`$, alors $`e:G^2\to G_T`$.
 
-Le calcul de la clé partagée fonctionne de la manière suivante : soient $`k_a`$ la clé privée d'Alice, $`k_b`$ la clé privée de Bob et $`k_c`$ la clé privée de Charlie trois entiers. En connaissant $`e`$ un couplage symmétrique et $`P`$ un point de la courbe $`G`$ définis à l'avance, Alice, Bob et Charlie peuvent calculer leurs clés publiques, respectivement $`k_A = k_aP`$, $`k_B = k_bP`$ et $`k_C = k_cP`$. Après s'être envoyé leurs clés publiques, Alice et Bob peuvent calculer leur clé partagée :
+Le calcul de la clé partagée fonctionne de la manière suivante : soient $`k_a`$ la clé privée d'Alice, $`k_b`$ la clé privée de Bob et $`k_c`$ la clé privée de Charlie trois entiers. En connaissant $`e`$ un couplage symmétrique et $`P`$ un point de la courbe $`G`$ définis à l'avance, Alice, Bob et Charlie peuvent calculer leurs clés publiques, respectivement $`k_A = k_a*P`$, $`k_B = k_b*P`$ et $`k_C = k_c*P`$. Après s'être envoyé leurs clés publiques, Alice et Bob peuvent calculer leur clé partagée :
 
 ```math
-k_{abc} = e(k_B, k_C)^{k_a} = e(k_bP, k_cP)^{k_a} = e(P, P)^{k_ak_bk_c}
+k_{abc} = e(k_B, k_C)^{k_a} = e(k_b*P, k_c*P)^{k_a} = e(P, P)^{k_ak_bk_c}
 ```
 ```math
-k_{bca} = e(k_C, k_A)^{k_b} = e(k_cP, k_aP)^{k_b} = e(P, P)^{k_ak_bk_c}
+k_{bca} = e(k_C, k_A)^{k_b} = e(k_c*P, k_a*P)^{k_b} = e(P, P)^{k_ak_bk_c}
 ```
 ```math
-k_{cab} = e(k_A, k_B)^{k_c} = e(k_aP, k_bP)^{k_c} = e(P, P)^{k_ak_bk_c}
+k_{cab} = e(k_A, k_B)^{k_c} = e(k_a*P, k_b*P)^{k_c} = e(P, P)^{k_ak_bk_c}
 ```
 
 > Si le couplage n'est pas symétrique, alors Alice, Bob et Charlie doivent se mettre d'accord sur deux points $`P_1\in G_1`$ et $`P_2\in G_2`$. Ils calculent et divulguent alors deux clés publiques chacun, une sur chaque courbe. Cela ne change pas le calcul de la clé partagée.
@@ -137,7 +137,7 @@ $`e(P,Q)=f_P(A_Q)^{(q^k+1)/r}`$ où $`P\in E/\mathbb F`$ est d'ordre $`r`$ et $`
 
 Pour généraliser le cas à trois partis avec $`N`$ utilisateurs, sans restriction sur $`N`$, avec la cryptographie à base de couplage il faudrait trouver un couplage avec pour ensemble de départ $`N`$ courbes elliptiques $`e:G_1\times ...\times G_N\to G_T,\;(P_1,...,P_N)\mapsto e(P_1,...,P_N)`$. Il faut toujours s'assurer de la biliniéarité de $`e`$. Si $`e`$ est symétrique, on pourra noter $`e:G^N\to G_T`$. Si de tels couplages sont possibles, il n'existe a priori pas de méthode permettant d'en trouver à partir seulement des courbes $`G_1`$ à $`G_N`$.
 
-Dans le cas d'usage d'une application de messagerie instantannée, cette méthode implique que le couplage nécessaire à l'échange de la clé partagée doit être recalculé à chaque fois qu'un utilisateur entre ou sort de la conversation. Alternativement, un ensemble de couplage peut être prédéfini pour $`N`$ allant de 3 à une valeur maximale, qui serait le nombre maximal d'utilisateurs dans un groupe.
+Dans le cas d'usage d'une application de messagerie instantannée, cette méthode implique que le couplage nécessaire à l'échange de la clé partagée doit être recalculé à chaque fois qu'un utilisateur entre ou sort de la conversation. Alternativement, un ensemble de couplages peut être prédéfini pour $`N`$ allant de 3 à une valeur maximale, qui serait le nombre maximal d'utilisateurs dans un groupe.
 
 Que ce soit grâce à la cryptographie à base de couplage ou autrement, la méthode de calcul de clé partagée doit encore être trouvée, prouvée et implémentée pour la généralisation à $`N`$ partis.
 
