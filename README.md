@@ -20,6 +20,7 @@
         * [Couplage Tate](#couplage-tate)
         * [Couplage optimal Ate](#couplage-optimal-ate)
     * [$`N`$ partis : généralisation](#n-partis--généralisation)
+        * [Échange de clé Diffie-Hellman en plusieurs tours](#échange-de-clé-diffie-hellman-en-plusieurs-tours)
     * [Liens utiles](#liens-utiles)
         * [Implémentation de cryptographie sur les courbes elliptiques](#implémentation-de-cryptographie-sur-les-courbes-elliptiques)
         * [Introduction à la cryptographie à base de couplage](#introduction-à-la-cryptographie-à-base-de-couplage)
@@ -135,11 +136,64 @@ $`e(P,Q)=f_P(A_Q)^{(q^k+1)/r}`$ où $`P\in E/\mathbb F`$ est d'ordre $`r`$ et $`
 
 ## $`N`$ partis : généralisation
 
-Pour généraliser le cas à trois partis avec $`N`$ utilisateurs, sans restriction sur $`N`$, avec la cryptographie à base de couplage il faudrait trouver un couplage avec pour ensemble de départ $`N`$ courbes elliptiques $`e:G_1\times ...\times G_N\to G_T,\;(P_1,...,P_N)\mapsto e(P_1,...,P_N)`$. Il faut toujours s'assurer de la biliniéarité de $`e`$. Si $`e`$ est symétrique, on pourra noter $`e:G^N\to G_T`$. Si de tels couplages sont possibles, il n'existe a priori pas de méthode permettant d'en trouver à partir seulement des courbes $`G_1`$ à $`G_N`$.
+Pour généraliser le cas à trois partis avec $`N`$ utilisateurs, sans restriction sur $`N`$, avec la cryptographie à base de couplage il faudrait trouver un couplage avec pour ensemble de départ $`N`$ courbes elliptiques $`e:G_1\times ...\times G_N\to G_T,\;(P_1,...,P_N)\mapsto e(P_1,...,P_N)`$. Il faut toujours s'assurer de la bilinéarité de $`e`$. Si $`e`$ est symétrique, on pourra noter $`e:G^N\to G_T`$. Si de tels couplages sont possibles, il n'existe a priori pas de méthode permettant d'en trouver à partir seulement des courbes $`G_1`$ à $`G_N`$​.
 
-Dans le cas d'usage d'une application de messagerie instantannée, cette méthode implique que le couplage nécessaire à l'échange de la clé partagée doit être recalculé à chaque fois qu'un utilisateur entre ou sort de la conversation. Alternativement, un ensemble de couplages peut être prédéfini pour $`N`$ allant de 3 à une valeur maximale, qui serait le nombre maximal d'utilisateurs dans un groupe.
+Dans le cas d'usage d'une application de messagerie instantanée, cette méthode implique que le couplage nécessaire à l'échange de la clé partagée doit être recalculé à chaque fois qu'un utilisateur entre ou sort de la conversation. Alternativement, un ensemble de couplages peut être prédéfini pour $`N`$ allant de 3 à une valeur maximale, qui serait le nombre maximal d'utilisateurs dans un groupe.
 
 Que ce soit grâce à la cryptographie à base de couplage ou autrement, la méthode de calcul de clé partagée doit encore être trouvée, prouvée et implémentée pour la généralisation à $`N`$ partis.
+
+### Échange de clé Diffie-Hellman en plusieurs tours
+
+En l'absence de généralisation à $`N`$ partis d'une méthode de création de clé partagée en un seul tour, il est tentant d'utiliser un modèle d'échange de clé standard à base de Diffie-Hellman sur des courbes elliptiques. Plusieurs modèles de création de clé partagée avec leurs avantages et leurs inconvénients sont listés ci-dessous. Ces modèles supposent que les utilisateurs connaissent au préalable les clés publiques de chacun.
+
+1. **clé partagée aléatoire créé par un utilisateur maître**
+
+    ![random-key-master](https://raw.githubusercontent.com/Relex12/3PBDH/main/img/random-key-master.png)
+
+    * *point négatif* : la clé partagée est envoyée, il suffirait de casser le chiffrement d'un message pour compromettre toute la sécurité
+    * *point négatif* : la clé partagée est envoyée plusieurs fois avec différents chiffrements, ce qui peut faciliter une attaque 
+    * *point négatif* : la clé partagée est créée par un seul utilisateur, auquel les autres doivent faire confiance et dont la génération de nombre aléatoires pourrait être défaillante
+    * *point positif* : la procédure ne prend qu'un seul tour, les messages sont envoyés en parallèle
+    * *point positif* : le faible nombre de messages, $n-1$ pour $n$ utilisateurs
+    * *point positif* : la procédure n'a pas besoin d'être réalisée de nouveau lors de l'ajout d'un nouvel utilisateur
+    * *point positif* : l'ajout d'un nouvel utilisateur peut être fait de manière synchrone par un seul utilisateur
+
+2. **clé partagée aléatoire créée conjointement par tous les utilisateurs**
+
+    ![random-key-all](https://raw.githubusercontent.com/Relex12/3PBDH/main/img/random-key-all.png)
+
+    * *point négatif* : la clé partagée est envoyée, il suffirait de casser le chiffrement de quelques messages pour compromettre toute la sécurité
+    * *point négatif* : le très grand nombre de messages, $n(n-1)$ pour $n$ utilisateurs
+    * *point négatif* : l'ajout d'un nouvel utilisateur doit être fait de manière synchrone par tous les utilisateurs
+    * *point positif* : la clé partagée est créée à partir de tous les utilisateurs
+    * *point positif* : la procédure ne prend qu'un seul tour, les messages sont envoyés en parallèle
+    * *point positif* : la procédure n'a pas besoin d'être réalisée de nouveau lors de l'ajout d'un nouvel utilisateur
+
+3. **signature successive de la clé partagée coordonnée par un utilisateur maître**
+
+    ![successive-signature-master](https://raw.githubusercontent.com/Relex12/3PBDH/main/img/successive-signature-master.png)
+
+    * *point négatif* : la clé partagée est envoyée, il suffirait de casser le chiffrement d'un message pour compromettre toute la sécurité
+    * *point négatif* : le grand nombre de messages, $3n-5$ pour $n$ utilisateurs
+    * *point négatif* : certains utilisateurs connaissent des clés partagées desquelles ils ne font pas partie, exemple B connait la clé entre A et D
+    * *point négatif* : l'ajout d'un nouvel utilisateur doit être fait de manière synchrone par tous les utilisateurs
+    * *point positif* : la clé partagée est créée à partir de tous les utilisateurs
+
+4. **échanges de clés Diffie-Hellman circulaires**
+
+    ![circular-diffie-hellman](https://raw.githubusercontent.com/Relex12/3PBDH/main/img/circular-diffie-hellman.png)
+
+    * *point négatif* : de nombreux utilisateurs connaissent des clés partagées desquelles ils ne font pas partie, exemple B connait la clé entre A et D
+    * *point négatif* : le très grand nombre de messages, $n(n-2)$ pour $n$ utilisateurs
+    * *point négatif* : l'ajout d'un nouvel utilisateur doit être fait de manière synchrone par tous les utilisateurs
+    * *point positif* : la clé partagée est créée à partir de tous les utilisateurs
+    * *point positif* : la clé partagée finale n'est pas envoyée
+
+---
+
+Ces quatre solutions, la clé partagée aléatoire créé par un utilisateur maître, la clé partagée aléatoire créée conjointement par tous les utilisateurs, la signature successive de la clé partagée coordonnée par un utilisateur maître et les échanges de clés Diffie-Hellman circulaires peuvent probablement utiliser la cryptographie à base de couplage afin de réduire le nombre d'échanges nécessaires.
+
+Cependant, tant qu'il y aura strictement plus de trois utilisateurs et que la cryptographie à base de couplage ou autre cryptographie ne permet pas de généralisation à $`N`$ partis, il y aura nécessairement plusieurs tours pour réaliser l'échange de clé, ce qui empêche certains cas d'usages tels que le Double Ratchet du protocole Signal.
 
 ## Liens utiles
 
