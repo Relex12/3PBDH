@@ -218,6 +218,11 @@ Cependant, tant qu'il y aura strictement plus de trois utilisateurs et que la cr
 
 * [Joux, Antoine. "The Weil and Tate Pairings as Building Blocks for Public Key Cryptosystems: Survey." International Algorithmic Number Theory Symposium. Berlin, Heidelberg: Springer Berlin Heidelberg, 2002.](https://sci-hub.st/10.1007/3-540-45455-1_3)
 * [Joux, Antoine. "A one round protocol for tripartite Diffie–Hellman." Journal of cryptology 17.4 (2004): 263-276.](https://link.springer.com/content/pdf/10.1007/s00145-004-0312-y.pdf)
+* [Cohn-Gordon, Katriel, et al. "On ends-to-ends encryption: Asynchronous group messaging with strong security guarantees." *Proceedings of the 2018 ACM SIGSAC Conference on Computer and Communications Security*. 2018.](https://eprint.iacr.org/2017/666.pdf)
+* [Ma, Fermi, and Mark Zhandry. "Encryptor combiners: a unified approach to multiparty nike,(h) ibe, and broadcast encryption." *Cryptology ePrint Archive* (2017).](https://eprint.iacr.org/2017/152.pdf)
+* [Boneh, Dan, and Mark Zhandry. "Multiparty key exchange, efficient  traitor tracing, and more from indistinguishability obfuscation." *Algorithmica* 79 (2017): 1233-1285.](https://link.springer.com/chapter/10.1007/978-3-662-44371-2_27)
+* [Boneh, Dan, and Alice Silverberg. "Applications of multilinear forms to cryptography." *Contemporary Mathematics* 324.1 (2003): 71-90.](https://eprint.iacr.org/2002/080.pdf)
+* [Alamati, Navid, Hart Montgomery, and Sikhar Patranabis. "Multiparty  Noninteractive Key Exchange from Ring Key-Homomorphic Weak PRFs." *Cryptographers’ Track at the RSA Conference*. Cham: Springer International Publishing, 2023.](https://eprint.iacr.org/2020/606.pdf)
 
 ### Software Development Kit
 
