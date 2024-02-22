@@ -48,10 +48,10 @@ L'échange de clés Diffie-Hellman permet de créer une clé partagée à partir
 Le calcul de la clé partagée fonctionne de la manière suivante : soient $`k_a`$ la clé privée d'Alice et $`k_b`$ la clé privée de Bob deux entiers. En connaissant $`p`$ un nombre premier et $`g`$ un nombre entier définis à l'avance, Alice et Bob peuvent calculer leurs clés publiques, respectivement $`k_A = g^{k_a}(\bmod{p})`$ et $`k_B = g^{k_b}(\bmod{p})`$. Après s'être envoyé leurs clés publiques, Alice et Bob peuvent calculer leur clé partagée :
 
 ```math
-k_{ab} = {k_B}^{k_a}(\bmod{p}) = (g^{k_b})^{k_a}(\bmod{p}) = g^{{k_a}{k_b}}(\bmod{p})
+k_{ab} = {k_B}^{k_a}(\bmod{p}) = (g^{k_b})^{k_a}(\bmod{p}) = g^{ {k_a}{k_b} }(\bmod{p})
 ```
 ```math
-k_{ba} = {k_A}^{k_b}(\bmod{p}) = (g^{k_a})^{k_b}(\bmod{p}) = g^{{k_a}{k_b}}(\bmod{p})
+k_{ba} = {k_A}^{k_b}(\bmod{p}) = (g^{k_a})^{k_b}(\bmod{p}) = g^{ {k_a}{k_b} }(\bmod{p})
 ```
 
 Depuis plusieurs années, le chiffrement asymétrique est plutôt réalisé grâce à la cryptographie sur les courbes elliptiques (*Elliptic Curve Cryptography* ou *ECC*) qui a progressivement remplacé le chiffrement RSA grâce ses clés bien plus courtes. Une courbe elliptique est un ensemble de points qui font partie de la courbe d'équation $`y^2 = x^3+ax+b`$, où $`a`$ et $`b`$ sont les paramètres de la courbe elliptique. Ces courbes elliptiques possèdent une loi de composition interne semblable à une addition, ainsi qu'un produit scalaire comme loi de composition externe.
