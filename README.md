@@ -8,6 +8,8 @@
 
 [![3PBDH](https://github-readme-stats.vercel.app/api/pin/?username=Relex12&repo=3PBDH)](https://github.com/Relex12/3PBDH)
 
+> Attention : cette page contient des formules en LaTeX qui ne sont pas correctement supportées sur le site web, pour une meilleure expérience veuillez consultez la [page sur Github](https://github.com/Relex12/3PBDH).
+
 ## Sommaire
 
 * [3PBDH](#3pbdh)
