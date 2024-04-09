@@ -102,7 +102,7 @@ if args.continuous:
 
     solutions = solve_ecc(a, b)
     if solutions == []:
-        raise Error(f'Curve {curve} does not seem to have solutions.')
+        raise Exception(f'Curve {curve} does not seem to have solutions.')
     x, y = solutions[0]
     G = Point(curve, frac(x), frac(y), 'G')
     if args.debug:
@@ -169,7 +169,7 @@ if args.plot:
 
 solutions = solve_ecc(a, b, p)
 if solutions == []:
-    raise Error(f'Curve {curve} does not seem to have solutions.')
+    raise Exception(f'Curve {curve} does not seem to have solutions.')
 x, y = solutions[0]
 G = FinitePoint(curve, x, y, 'G')
 if args.debug:
