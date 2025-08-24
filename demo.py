@@ -208,7 +208,6 @@ if args.plot:
     kbc.plot('kbc')
 
 print ('Three partite session keys, first attempt')
-print ('debug')
 kabc1 = ka*(kB+kC)
 kbca1 = kb*(kC+kA)
 kcab1 = kc*(kA+kB)

@@ -4,6 +4,10 @@
 # https://volya.xyz/ecc/
 # https://www.rareskills.io/post/elliptic-curves-finite-fields
 
+# Workaround for matplotlib import freeze on WSL2 Win11
+import os
+os.environ["DISPLAY"] = ":0"
+
 from math import sqrt
 import numpy as np
 import matplotlib.pyplot as plt
